@@ -33,12 +33,9 @@ public class ListAdd extends AppCompatActivity {
         name = findViewById(R.id.edit_list_name);
         type = findViewById(R.id.edit_list_type);
 
-        taskList = new TaskList();
+        taskList = (TaskList) getIntent().getSerializableExtra("change");
 
-
-        //taskList = (TaskList) getIntent().getSerializableExtra("change");
-
-        /*if (taskList != null) {
+        if (taskList != null) {
             okButton.setText("确认修改");
             name.setText(" " + taskList.getListName());
             type.setText(taskList.getType());
@@ -46,8 +43,7 @@ public class ListAdd extends AppCompatActivity {
 
         } else {
             taskList = new TaskList();
-        }*/
-
+        }
 
 
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -57,9 +53,8 @@ public class ListAdd extends AppCompatActivity {
                 String typel = type.getText().toString();
                 taskList.setListName(namel);
                 taskList.setType(typel);
-               // getIntent().putExtra("add_menu",taskList);
-               // MainActivity.addList(taskList);
-                Log.d("mytag","name:"+taskList.getListName());
+                getIntent().putExtra("add_list", taskList);
+                Log.d("mytag", "name:" + taskList.getListName());
                 taskList.save();
                 finish();/*
                 Toast.makeText(context, taskList.getListName(), Toast.LENGTH_SHORT).show();

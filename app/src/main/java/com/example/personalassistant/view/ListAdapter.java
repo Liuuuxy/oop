@@ -28,9 +28,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         //交换集合中两个数据的位置
-        Collections.swap(mListList,fromPosition,toPosition);
+        Collections.swap(mListList, fromPosition, toPosition);
         //刷新界面,局部刷新,索引会混乱
-        notifyItemMoved(fromPosition,toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+
     }
 
     @Override
@@ -38,7 +39,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
         mListList.remove(position);
         //局部刷新,索引会混乱+集合越界
         notifyItemRemoved(position);
-       mListList.get(position).delete();
+        mListList.get(position).delete();
     }
 
     public interface OnRecyclerViewItemClickListener {
@@ -92,7 +93,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     @Override
     public void onBindViewHolder(@NonNull ListAdapter.ViewHolder holder, int position) {
-        final TaskList tList = mListList.get(position);
+        TaskList tList = mListList.get(position);
         holder.listTitle.setText(tList.getListName());
     }
 

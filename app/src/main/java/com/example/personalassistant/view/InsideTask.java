@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.personalassistant.R;
 import com.example.personalassistant.data.Cycle;
+import com.example.personalassistant.data.Long;
 import com.example.personalassistant.data.Task;
 import com.example.personalassistant.data.TaskList;
 
@@ -24,14 +26,17 @@ public class InsideTask extends AppCompatActivity {
     TextView tv1;
     TextView tv2;
     TextView tv3;
+    Button b;
 
-    Task task = (Task) getIntent().getSerializableExtra("chosentask");
+    Task task;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inside_task);
+
+        task = (Task) getIntent().getSerializableExtra("chosentask");
 
         edName = findViewById(R.id.ed_name_task);
         edContent = findViewById(R.id.ed_content_task);
@@ -42,7 +47,7 @@ public class InsideTask extends AppCompatActivity {
         tv1=findViewById(R.id.tv1);
         tv2=findViewById(R.id.tv2);
         tv3=findViewById(R.id.tv3);
-
+        b=findViewById(R.id.btn_task_ok_change);
 
         edName.setText(task.getName());
         edContent.setText(task.getContent());
@@ -55,11 +60,28 @@ public class InsideTask extends AppCompatActivity {
                 tv1.setVisibility(View.INVISIBLE);
                 tv2.setVisibility(View.INVISIBLE);
                 tv3.setVisibility(View.INVISIBLE);
+                break;
             case 1:
                 type.setText("周期任务");
                 ed1.setText(((Cycle)task).getExecuteDate());
                 ed2.setText(((Cycle)task).getCount());
                 ed3.setText(((Cycle)task).getRepeatCycle());
+                break;
+            case 2:
+                type.setText("长期任务");
+                ed1.setVisibility(View.INVISIBLE);
+                ed2.setVisibility(View.INVISIBLE);
+                ed3.setVisibility(View.INVISIBLE);
+                tv1.setVisibility(View.INVISIBLE);
+                tv2.setVisibility(View.INVISIBLE);
+                tv3.setVisibility(View.INVISIBLE);
+                break;
         }
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }

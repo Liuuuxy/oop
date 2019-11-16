@@ -3,6 +3,7 @@ package com.example.personalassistant.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,8 +62,6 @@ public class ItemsAdd extends Activity {
         circleCycle = findViewById(R.id.edit_circle);
         ddlLong = findViewById(R.id.edit_ddl_long);
 
-        content = edContent.getText().toString();
-        name = edTaskTitle.getText().toString();
 
         mrg.setOnCheckedChangeListener(mChangeRadio);
     }
@@ -73,11 +72,14 @@ public class ItemsAdd extends Activity {
             //TODO:单选处理
             if (i == rb1.getId()) {
                 type = 0;
-                ddl = ddlTemp.getText().toString();
                 okBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ddl = ddlTemp.getText().toString();
+                        content = edContent.getText().toString();
+                        name = edTaskTitle.getText().toString();
                         Temporary tt = new Temporary(name, content, type, ddl);
+                        Log.d("yooo","ddl:"+tt.getDeadline()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);
@@ -85,13 +87,16 @@ public class ItemsAdd extends Activity {
                 });
             } else if (i == rb2.getId()) {
                 type = 1;
-                ddl = ddlCycle.getText().toString();
-                num = Integer.parseInt(numCycle.getText().toString().equals("") ? "0" : numCycle.getText().toString());
-                repeat = Integer.parseInt(circleCycle.getText().toString().equals("") ? "0" : circleCycle.getText().toString());
                 okBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Task tt = new Cycle(name, content, type, ddl, num, repeat);
+                        ddl = ddlCycle.getText().toString();
+                        content = edContent.getText().toString();
+                        name = edTaskTitle.getText().toString();
+                        num = Integer.parseInt(numCycle.getText().toString().equals("") ? "0" : numCycle.getText().toString());
+                        repeat = Integer.parseInt(circleCycle.getText().toString().equals("") ? "0" : circleCycle.getText().toString());
+                        Cycle tt = new Cycle(name, content, type, ddl, num, repeat);
+                        Log.d("yooo","ddl:"+tt.getExecuteDate()+"num:"+tt.getCount()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);
@@ -99,11 +104,14 @@ public class ItemsAdd extends Activity {
                 });
             } else if (i == rb3.getId()) {
                 type = 2;
-                ddl = ddlLong.getText().toString();
                 okBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Task tt = new Long(name, content, type, ddl, null);
+                        content = edContent.getText().toString();
+                        name = edTaskTitle.getText().toString();
+                        ddl = ddlLong.getText().toString();
+                        Long tt = new Long(name, content, type, ddl, null);
+                        Log.d("yooo","ddl:"+tt.getDdl()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);

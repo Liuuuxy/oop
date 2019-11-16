@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,24 +35,39 @@ public class InsideList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView t1;
     private TextView t2;
-    Context context=this;
-    static private TaskAdapter taskAdapter;
-    TaskList taskList= new TaskList();
-    List<Task> listOfTask=taskList.getTaskList();
+    private Button b;
+    Context context = this;
+    private TaskAdapter taskAdapter;
+    static TaskList taskList = new TaskList();
+    List<Task> listOfTask;
+    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inside_list);
+        if (count != 1) {
+            taskList = (TaskList) getIntent().getSerializableExtra("chosenlist");
+            Log.d("yooo", "listname: " + taskList.getListName());
+            count++;
+        }
 
-        taskList=(TaskList) getIntent().getSerializableExtra("chosenlist");
+        // if (taskList.getTaskList() != null) {
+        // listOfTask = taskList.getTaskList();
+        // } else {
+        listOfTask = new ArrayList<>();
+        // }
 
         View include = findViewById(R.id.r2);
         recyclerView = include.findViewById(R.id.rv_task);
 
-        t1=findViewById(R.id.tv_list_show_name);
-        t2=findViewById(R.id.tv_list_show_type);
+        t1 = findViewById(R.id.tv_list_show_name);
+        t2 = findViewById(R.id.tv_list_show_type);
+        b=findViewById(R.id.btn_edit);
 
+        if(getIntent().getSerializableExtra("add_list")!=null){
+            taskList= (TaskList) getIntent().getSerializableExtra("add_list");
+        }
         t1.setText(taskList.getListName());
         t2.setText(taskList.getType());
 
@@ -74,14 +91,14 @@ public class InsideList extends AppCompatActivity {
         // 拖拽移动和左滑删除
         SimpleItemTouchCallBack simpleItemTouchCallBack = new SimpleItemTouchCallBack(taskAdapter);
         // 要实现侧滑删除条目，把 false 改成 true 就可以了
-        simpleItemTouchCallBack.setmSwipeEnable(false);
+        simpleItemTouchCallBack.setmSwipeEnable(true);
         ItemTouchHelper helper = new ItemTouchHelper(simpleItemTouchCallBack);
         helper.attachToRecyclerView(recyclerView);
 
-        for (Task t : taskList.getTaskList()) {
-            listOfTask.add(t);
-            taskAdapter.notifyDataSetChanged();
-        }
+//        for (Task t : taskList.getTaskList()) {
+//            listOfTask.add(t);
+//            taskAdapter.notifyDataSetChanged();
+//        }
 
         if (getIntent().getSerializableExtra("task") != null) {
             if (((Task) getIntent().getSerializableExtra("task")).getType() == 0) {
@@ -107,6 +124,15 @@ public class InsideList extends AppCompatActivity {
                 taskAdapter.notifyDataSetChanged();
             }
         }
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(InsideList.this,ListAdd.class);
+                intent.putExtra("change",taskList);
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab1);
         fab.setOnClickListener(new View.OnClickListener() {

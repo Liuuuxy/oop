@@ -23,19 +23,25 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.litepal.LitePal;
 import org.litepal.exceptions.DataSupportException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListAdapter listAdapter;
     private List<TaskList> listList;
+    private List<TaskList> foradapter;
     private Context context = this;
+    private Button b;
 
     /*static public void addList(TaskList taskList) {
         listList.add(taskList);
@@ -46,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        b = findViewById(R.id.btn_sort1);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("个人助理");
 
         LitePal.getDatabase();
-        DBHelper dbHelper=new DBHelper(context);
-        listList = LitePal.findAll(TaskList.class,true);
+        DBHelper dbHelper = new DBHelper(context);
+        listList = LitePal.findAll(TaskList.class, true);
+        foradapter = listList;
 
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -61,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        listAdapter = new ListAdapter(this, listList);
+        listAdapter = new ListAdapter(this, foradapter);
         recyclerView.setAdapter(listAdapter);
 
         listAdapter.setOnItemClickListener(new ListAdapter.OnRecyclerViewItemClickListener() {
@@ -100,7 +108,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-       // initData();
+        // initData();
+
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(foradapter, new Comparator<TaskList>() {
+                    @Override
+                    public int compare(TaskList taskList, TaskList t1) {
+                        return taskList.getListName().compareTo(t1.getListName());
+                    }
+                });
+                listAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -138,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
         b.setType("bbb");
         b.getTaskList().add(ta);
         b.save();
-        List<Task> abb=new ArrayList<>();
-        Task c=new Task("in1","1233",1);
+        List<Task> abb = new ArrayList<>();
+        Task c = new Task("in1", "1233", 1);
         b.getTaskList().add(c);
         //listList.add(b);
     }
@@ -147,15 +168,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        listList = LitePal.findAll(TaskList.class, true);
-        recyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-        listAdapter = new ListAdapter(this, listList);
-        recyclerView.setAdapter(listAdapter);
+        if (getIntent().getSerializableExtra("add_list") != null) {
+            TaskList tl = (TaskList) getIntent().getSerializableExtra("add_list");
+            foradapter.clear();
+            foradapter.add(tl);
+            listAdapter.notifyDataSetChanged();
+        }
+        //      listList = LitePal.findAll(TaskList.class, true);
+//        recyclerView = findViewById(R.id.recycler_view);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//        layoutManager.setOrientation(RecyclerView.VERTICAL);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        listAdapter = new ListAdapter(this, listList);
+//        recyclerView.setAdapter(listAdapter);
     }
+
 /*
     public static TaskList findList(String s){
         for (TaskList taskList0:listList){
@@ -165,8 +193,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }*/
-
-
 
 
 }
