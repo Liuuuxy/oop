@@ -34,8 +34,7 @@ public class ListAdd extends AppCompatActivity {
         type = findViewById(R.id.edit_list_type);
 
         taskList = new TaskList();
-        String namel = name.getText().toString();
-        String typel = type.getText().toString();
+
 
         //taskList = (TaskList) getIntent().getSerializableExtra("change");
 
@@ -49,14 +48,18 @@ public class ListAdd extends AppCompatActivity {
             taskList = new TaskList();
         }*/
 
-        taskList.setListName(namel);
-        taskList.setType(typel);
+
 
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String namel = name.getText().toString();
+                String typel = type.getText().toString();
+                taskList.setListName(namel);
+                taskList.setType(typel);
                // getIntent().putExtra("add_menu",taskList);
                // MainActivity.addList(taskList);
+                Log.d("mytag","name:"+taskList.getListName());
                 taskList.save();
                 finish();/*
                 Toast.makeText(context, taskList.getListName(), Toast.LENGTH_SHORT).show();

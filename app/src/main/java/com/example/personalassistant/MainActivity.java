@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.personalassistant.tool.DBHelper;
 import com.example.personalassistant.tool.SimpleItemTouchCallBack;
 import com.example.personalassistant.data.Task;
 import com.example.personalassistant.data.TaskList;
@@ -18,12 +19,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.litepal.LitePal;
+import org.litepal.exceptions.DataSupportException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("个人助理");
 
         LitePal.getDatabase();
+        DBHelper dbHelper=new DBHelper(context);
         listList = LitePal.findAll(TaskList.class,true);
+
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -142,7 +147,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        listList = LitePal.findAll(TaskList.class,true);
+        listList = LitePal.findAll(TaskList.class, true);
+        recyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        listAdapter = new ListAdapter(this, listList);
+        recyclerView.setAdapter(listAdapter);
     }
 /*
     public static TaskList findList(String s){

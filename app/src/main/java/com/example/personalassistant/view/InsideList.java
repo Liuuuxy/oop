@@ -35,13 +35,15 @@ public class InsideList extends AppCompatActivity {
     private TextView t2;
     Context context=this;
     static private TaskAdapter taskAdapter;
-    TaskList taskList= (TaskList) getIntent().getSerializableExtra("chosenlist");
+    TaskList taskList= new TaskList();
     List<Task> listOfTask=taskList.getTaskList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inside_list);
+
+        taskList=(TaskList) getIntent().getSerializableExtra("chosenlist");
 
         View include = findViewById(R.id.r2);
         recyclerView = include.findViewById(R.id.rv_task);
