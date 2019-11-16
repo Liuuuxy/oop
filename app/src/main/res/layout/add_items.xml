@@ -56,6 +56,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:text="重要等级："
+        android:textColor="@color/black"
+        android:textSize="22dp" />
+
+    <EditText
+        android:id="@+id/edit_level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="请输入整数，数字越小越重要"
+        android:textColorHint="#95A1AA"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="10dp"
         android:text="任务分类："
         android:textColor="@color/black"

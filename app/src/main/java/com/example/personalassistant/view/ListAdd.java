@@ -32,38 +32,44 @@ public class ListAdd extends AppCompatActivity {
         okButton = findViewById(R.id.btn_list_ok);
         name = findViewById(R.id.edit_list_name);
         type = findViewById(R.id.edit_list_type);
-
+/*
         taskList = (TaskList) getIntent().getSerializableExtra("change");
 
         if (taskList != null) {
             okButton.setText("确认修改");
-            name.setText(" " + taskList.getListName());
+            name.setText(taskList.getListName());
             type.setText(taskList.getType());
-            taskList = LitePal.find(TaskList.class, taskList.getId(), true);
-
-        } else {
+           // taskList = LitePal.find(TaskList.class, taskList.getId(), true);
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String namel = name.getText().toString();
+                    String typel = type.getText().toString();
+                    taskList.setType(typel);
+                    taskList.setListName(namel);
+                    taskList.updateAll("listname = ? and type = ?", namel, typel);
+                    Log.d("aa","listname: "+taskList.getListName());
+                    getIntent().putExtra("changelist",taskList);
+                    finish();
+                }
+            });
+        } else {*/
             taskList = new TaskList();
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String namel = name.getText().toString();
+                    String typel = type.getText().toString();
+                    taskList.setListName(namel);
+                    taskList.setType(typel);
+                    getIntent().putExtra("add_list", taskList);
+                    Log.d("mytag", "name:" + taskList.getListName());
+                    taskList.save();
+                    finish();
+                }
+            });
         }
 
 
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String namel = name.getText().toString();
-                String typel = type.getText().toString();
-                taskList.setListName(namel);
-                taskList.setType(typel);
-                getIntent().putExtra("add_list", taskList);
-                Log.d("mytag", "name:" + taskList.getListName());
-                taskList.save();
-                finish();/*
-                Toast.makeText(context, taskList.getListName(), Toast.LENGTH_SHORT).show();
-                if (taskList.save()) {
-                    Toast.makeText(context, "saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
-                }*/
-            }
-        });
     }
-}
+

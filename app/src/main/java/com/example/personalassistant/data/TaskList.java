@@ -45,4 +45,8 @@ public class TaskList extends LitePalSupport implements Serializable {
     public void setListName(String listName) {
         this.listName = listName;
     }
+
+    public void addTask(Task task){
+        taskList.add(task);
+    }
 }

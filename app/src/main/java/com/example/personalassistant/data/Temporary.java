@@ -14,8 +14,8 @@ public class Temporary extends Task {
         this.deadline = deadline;
     }
 
-    public Temporary(String name, String content, int type, String ddl) {
-        super(name,content,type);
-        this.deadline=ddl;
+    public Temporary(String name, String content, int type, int level, String ddl) {
+        super(name, content, type, level);
+        this.deadline = ddl;
     }
 }

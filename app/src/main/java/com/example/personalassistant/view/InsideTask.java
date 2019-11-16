@@ -20,6 +20,7 @@ public class InsideTask extends AppCompatActivity {
     EditText edName;
     EditText edContent;
     EditText type;
+    EditText level;
     EditText ed1;
     EditText ed2;
     EditText ed3;
@@ -41,6 +42,7 @@ public class InsideTask extends AppCompatActivity {
         edName = findViewById(R.id.ed_name_task);
         edContent = findViewById(R.id.ed_content_task);
         type=findViewById(R.id.ed_type_task);
+        level=findViewById(R.id.ed_level_task);
         ed1=findViewById(R.id.ed1);
         ed2=findViewById(R.id.ed2);
         ed3=findViewById(R.id.ed3);
@@ -51,6 +53,7 @@ public class InsideTask extends AppCompatActivity {
 
         edName.setText(task.getName());
         edContent.setText(task.getContent());
+        level.setText(Integer.toString(task.getLevel()));
         switch (task.getType()){
             case 0:
                 type.setText("临时任务");
@@ -64,8 +67,8 @@ public class InsideTask extends AppCompatActivity {
             case 1:
                 type.setText("周期任务");
                 ed1.setText(((Cycle)task).getExecuteDate());
-                ed2.setText(((Cycle)task).getCount());
-                ed3.setText(((Cycle)task).getRepeatCycle());
+                ed2.setText(Integer.toString(((Cycle)task).getCount()));
+                ed3.setText(Integer.toString(((Cycle)task).getRepeatCycle()));
                 break;
             case 2:
                 type.setText("长期任务");

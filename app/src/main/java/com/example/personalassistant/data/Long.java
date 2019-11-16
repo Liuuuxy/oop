@@ -23,8 +23,8 @@ public class Long extends Task {
     }
 
 
-    public Long(String name, String content, int type, String ddl, List<Temporary> tlist){
-        super(name,content,type);
+    public Long(String name, String content, int type,int level, String ddl, List<Temporary> tlist){
+        super(name,content,type,level);
         this.ddl=ddl;
         this.templist=tlist;
     }

@@ -5,8 +5,8 @@ public class Cycle extends Task {
     private int count;
     private int repeatCycle;
 
-    public Cycle(String name, String content, int type, String ddl, int num, int repeatCycle) {
-        super(name, content, type);
+    public Cycle(String name, String content, int type,int level, String ddl, int num, int repeatCycle) {
+        super(name, content, type,level);
         this.count = num;
         this.executeDate = ddl;
         this.repeatCycle = repeatCycle;

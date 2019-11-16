@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private List<TaskList> foradapter;
     private Context context = this;
     private Button b;
+    private Button b2;
 
     /*static public void addList(TaskList taskList) {
         listList.add(taskList);
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         b = findViewById(R.id.btn_sort1);
+        b2=findViewById(R.id.btn_sort2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("个人助理");
@@ -122,6 +124,19 @@ public class MainActivity extends AppCompatActivity {
                 listAdapter.notifyDataSetChanged();
             }
         });
+
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(foradapter, new Comparator<TaskList>() {
+                    @Override
+                    public int compare(TaskList taskList, TaskList t1) {
+                        return taskList.getType().compareTo(t1.getType());
+                    }
+                });
+                listAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -150,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         TaskList a = new TaskList();
         a.setListName("aaa");
         a.setType("bbb");
-        Task ta = new Task("task01", "task1 content", 0);
+        Task ta = new Task("task01", "task1 content", 0,2);
         a.getTaskList().add(ta);
         a.save();
         // listList.add(a);
@@ -160,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         b.getTaskList().add(ta);
         b.save();
         List<Task> abb = new ArrayList<>();
-        Task c = new Task("in1", "1233", 1);
+        Task c = new Task("in1", "1233", 1,2);
         b.getTaskList().add(c);
         //listList.add(b);
     }

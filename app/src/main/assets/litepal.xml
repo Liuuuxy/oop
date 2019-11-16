@@ -4,6 +4,9 @@
     <version value="3"/>
     <list>
         <mapping class="com.example.personalassistant.data.TaskList"/>
-        <mapping class="com.example.personalassistant.data.Task"/>
+        <mapping class="com.example.personalassistant.data.Temporary"/>
+        <mapping class="com.example.personalassistant.data.Long"/>
+        <mapping class="com.example.personalassistant.data.Cycle"/>
+
     </list>
 </litepal>

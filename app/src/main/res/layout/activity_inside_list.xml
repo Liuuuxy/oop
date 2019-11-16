@@ -9,15 +9,15 @@
     tools:context=".view.InsideList"
     tools:showIn="@layout/inside_list">
 
-    <TextView
-        android:id="@+id/tv_list_show_name"
+    <EditText
+        android:id="@+id/ed_list_show_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="24sp"/>
 
-    <TextView
-        android:id="@+id/tv_list_show_type"
+    <EditText
+        android:id="@+id/ed_list_show_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -28,6 +28,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="编辑任务清单"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_sort_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按名称排序"/>
+        <Button
+            android:id="@+id/btn_sort_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按类型排序"/>
+        <Button
+            android:id="@+id/btn_sort_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按等级排序"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_task"

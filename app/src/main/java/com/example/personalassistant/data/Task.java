@@ -10,6 +10,19 @@ public class Task extends LitePalSupport implements Serializable {
     private String Content;
     private TaskList tlist;
     private int type;
+    private int level;
+
+    public Task copy() {
+        return new Task(this.name, this.Content, this.type, this.level);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 
     public int getId() {
         return id;
@@ -27,10 +40,11 @@ public class Task extends LitePalSupport implements Serializable {
         this.tlist = tlist;
     }
 
-    public Task(String name, String content, int type){
-        this.name=name;
-        this.Content=content;
-        this.type=type;
+    public Task(String name, String content, int type, int level) {
+        this.name = name;
+        this.Content = content;
+        this.type = type;
+        this.level = level;
     }
 
     public int getType() {

@@ -34,9 +34,11 @@ public class ItemsAdd extends Activity {
     private EditText ddlLong;
     private EditText numCycle;
     private EditText circleCycle;
+    private EditText level;
 
     private String name;
     private String content;
+    private int mlevel;
     private int type;
     private String ddl;
     private int num;
@@ -61,6 +63,7 @@ public class ItemsAdd extends Activity {
         numCycle = findViewById(R.id.edit_num);
         circleCycle = findViewById(R.id.edit_circle);
         ddlLong = findViewById(R.id.edit_ddl_long);
+        level = findViewById(R.id.edit_level);
 
 
         mrg.setOnCheckedChangeListener(mChangeRadio);
@@ -78,8 +81,10 @@ public class ItemsAdd extends Activity {
                         ddl = ddlTemp.getText().toString();
                         content = edContent.getText().toString();
                         name = edTaskTitle.getText().toString();
-                        Temporary tt = new Temporary(name, content, type, ddl);
-                        Log.d("yooo","ddl:"+tt.getDeadline()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
+                        mlevel = Integer.parseInt(level.getText().toString());
+                        Temporary tt = new Temporary(name, content, type, mlevel, ddl);
+                        tt.save();
+                        Log.d("yooo", "ddl:" + tt.getDeadline() + "name:" + tt.getName() + "content:" + tt.getContent() + "type:" + tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);
@@ -93,10 +98,12 @@ public class ItemsAdd extends Activity {
                         ddl = ddlCycle.getText().toString();
                         content = edContent.getText().toString();
                         name = edTaskTitle.getText().toString();
+                        mlevel = Integer.parseInt(level.getText().toString().equals("") ? "0" : level.getText().toString());
                         num = Integer.parseInt(numCycle.getText().toString().equals("") ? "0" : numCycle.getText().toString());
                         repeat = Integer.parseInt(circleCycle.getText().toString().equals("") ? "0" : circleCycle.getText().toString());
-                        Cycle tt = new Cycle(name, content, type, ddl, num, repeat);
-                        Log.d("yooo","ddl:"+tt.getExecuteDate()+"num:"+tt.getCount()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
+                        Cycle tt = new Cycle(name, content, type, mlevel, ddl, num, repeat);
+                        tt.save();
+                        Log.d("yooo", "ddl:" + tt.getExecuteDate() + "num:" + tt.getCount() + "name:" + tt.getName() + "content:" + tt.getContent() + "type:" + tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);
@@ -110,8 +117,10 @@ public class ItemsAdd extends Activity {
                         content = edContent.getText().toString();
                         name = edTaskTitle.getText().toString();
                         ddl = ddlLong.getText().toString();
-                        Long tt = new Long(name, content, type, ddl, null);
-                        Log.d("yooo","ddl:"+tt.getDdl()+"name:"+tt.getName()+"content:"+tt.getContent()+"type:"+tt.getType());
+                        mlevel = Integer.parseInt(level.getText().toString().equals("") ? "0" : level.getText().toString());
+                        Long tt = new Long(name, content, type, mlevel, ddl, null);
+                        tt.save();
+                        Log.d("yooo", "ddl:" + tt.getDdl() + "name:" + tt.getName() + "content:" + tt.getContent() + "type:" + tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
                         intent.putExtra("task", tt);
                         startActivity(intent);

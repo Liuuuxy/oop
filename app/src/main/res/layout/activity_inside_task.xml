@@ -57,6 +57,23 @@
         android:gravity="center_horizontal"/>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        android:text="重要等级："
+        android:textColor="@color/black"
+        android:textSize="22dp" />
+
+    <EditText
+        android:id="@+id/ed_level_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +28,23 @@ import com.example.personalassistant.data.TaskList;
 import com.example.personalassistant.data.Temporary;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class InsideList extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private TextView t1;
-    private TextView t2;
+    private EditText t1;
+    private EditText t2;
     private Button b;
+    private Button sort1;
+    private Button sort2;
+    private Button sort3;
     Context context = this;
     private TaskAdapter taskAdapter;
     static TaskList taskList = new TaskList();
@@ -46,30 +55,28 @@ public class InsideList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inside_list);
-        if (count != 1) {
+        if(getIntent().getSerializableExtra("chosenlist")!=null) {
             taskList = (TaskList) getIntent().getSerializableExtra("chosenlist");
-            Log.d("yooo", "listname: " + taskList.getListName());
-            count++;
+            //Log.d("yooo", "listname: " + taskList.getListName());
         }
-
-        // if (taskList.getTaskList() != null) {
-        // listOfTask = taskList.getTaskList();
-        // } else {
+        if (taskList.getTaskList() != null) {
+         listOfTask = taskList.getTaskList();
+        } else {
         listOfTask = new ArrayList<>();
-        // }
+         }
 
         View include = findViewById(R.id.r2);
         recyclerView = include.findViewById(R.id.rv_task);
 
-        t1 = findViewById(R.id.tv_list_show_name);
-        t2 = findViewById(R.id.tv_list_show_type);
+        t1 = findViewById(R.id.ed_list_show_name);
+        t2 = findViewById(R.id.ed_list_show_type);
         b=findViewById(R.id.btn_edit);
+        sort1=findViewById(R.id.btn_sort_name);
+        sort2=findViewById(R.id.btn_sort_type);
+        sort3=findViewById(R.id.btn_sort_level);
 
-        if(getIntent().getSerializableExtra("add_list")!=null){
-            taskList= (TaskList) getIntent().getSerializableExtra("add_list");
-        }
-        t1.setText(taskList.getListName());
         t2.setText(taskList.getType());
+        t1.setText(taskList.getListName());
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
@@ -104,22 +111,19 @@ public class InsideList extends AppCompatActivity {
             if (((Task) getIntent().getSerializableExtra("task")).getType() == 0) {
                 Temporary t = (Temporary) getIntent().getSerializableExtra("task");
                 listOfTask.add(t);
+                taskList.getTaskList().add(t);
                 taskList.save();
-                if (taskList.save()) {
-                    Toast.makeText(this, "saved", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "failed", Toast.LENGTH_SHORT).show();
-                }
-                listOfTask.add(t);
                 taskAdapter.notifyDataSetChanged();
             } else if (((Task) getIntent().getSerializableExtra("task")).getType() == 1) {
                 Cycle t = (Cycle) getIntent().getSerializableExtra("task");
                 listOfTask.add(t);
+                taskList.getTaskList().add(t);
                 taskList.save();
                 taskAdapter.notifyDataSetChanged();
             } else if (((Task) getIntent().getSerializableExtra("task")).getType() == 2) {
                 Long t = (Long) getIntent().getSerializableExtra("task");
                 listOfTask.add(t);
+                taskList.getTaskList().add(t);
                 taskList.save();
                 taskAdapter.notifyDataSetChanged();
             }
@@ -128,9 +132,50 @@ public class InsideList extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(InsideList.this,ListAdd.class);
-                intent.putExtra("change",taskList);
-                startActivity(intent);
+                taskList.setListName(t1.getText().toString());
+                taskList.setType(t2.getText().toString());
+                taskList.updateAll("listname = ? and type = ?", t1.getText().toString(), t2.getText().toString());
+                t1.setText(taskList.getListName());
+                t2.setText(taskList.getType());
+            }
+        });
+
+        sort1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(listOfTask, new Comparator<Task>() {
+                    @Override
+                    public int compare(Task task, Task t1) {
+                        return task.getName().compareTo(t1.getName());
+                    }
+                });
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+        sort2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(listOfTask, new Comparator<Task>() {
+                    @Override
+                    public int compare(Task task, Task t1) {
+                        return task.getType()-t1.getType();
+                    }
+                });
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+        sort3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(listOfTask, new Comparator<Task>() {
+                    @Override
+                    public int compare(Task task, Task t1) {
+                        return task.getLevel()-t1.getLevel();
+                    }
+                });
+                taskAdapter.notifyDataSetChanged();
             }
         });
 
@@ -143,4 +188,5 @@ public class InsideList extends AppCompatActivity {
             }
         });
     }
+
 }
