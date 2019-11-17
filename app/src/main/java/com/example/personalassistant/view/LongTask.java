@@ -5,13 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.personalassistant.R;
 import com.example.personalassistant.data.Long;
 import com.example.personalassistant.data.Task;
+import com.example.personalassistant.data.Temporary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LongTask extends AppCompatActivity {
     EditText edName;
@@ -20,7 +26,9 @@ public class LongTask extends AppCompatActivity {
     EditText edDdl;
     Button btEdit;
     Button btAdd;
-    Long task;
+    static Long task;
+    List<Temporary> sontasks = new ArrayList<>();
+    List<String> sonTaskName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +41,22 @@ public class LongTask extends AppCompatActivity {
         btAdd = findViewById(R.id.btn_add);
         btEdit = findViewById(R.id.btn_edit_long);
 
-        task = (Long) getIntent().getSerializableExtra("longtaskchoose");
+        if (getIntent().getSerializableExtra("longtaskchoose") != null) {
+            task = (Long) getIntent().getSerializableExtra("longtaskchoose");
+        }
+        if (getIntent().getSerializableExtra("addasontask") != null) {
+            task.getTemplist().add((Temporary) getIntent().getSerializableExtra("addasontask"));
+            task.save();
+            sontasks = task.getTemplist();
+            for (Temporary t : sontasks) {
+                sonTaskName.add(t.getName());
+            }
+            String[] data = sonTaskName.toArray(new String[sonTaskName.size()]);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                    LongTask.this, android.R.layout.simple_list_item_1, data);
+            ListView listView = findViewById(R.id.listview);
+            listView.setAdapter(adapter);
+        }
 
         edName.setText(task.getName());
         edContent.setText(task.getContent());
@@ -56,7 +79,8 @@ public class LongTask extends AppCompatActivity {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LongTask.this,ItemsAdd.class);
+                Intent intent = new Intent(LongTask.this, ItemsAdd.class);
+                intent.putExtra("inlongtask", task);
                 startActivity(intent);
             }
         });

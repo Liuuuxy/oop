@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +20,8 @@ import com.example.personalassistant.data.Cycle;
 import com.example.personalassistant.data.Long;
 import com.example.personalassistant.data.Task;
 import com.example.personalassistant.data.Temporary;
+
+import java.util.ArrayList;
 
 public class ItemsAdd extends Activity {
     private EditText edContent;
@@ -35,6 +38,7 @@ public class ItemsAdd extends Activity {
     private EditText numCycle;
     private EditText circleCycle;
     private EditText level;
+    private TextView tv;
 
     private String name;
     private String content;
@@ -64,9 +68,34 @@ public class ItemsAdd extends Activity {
         circleCycle = findViewById(R.id.edit_circle);
         ddlLong = findViewById(R.id.edit_ddl_long);
         level = findViewById(R.id.edit_level);
+        tv=findViewById(R.id.tv_classification);
 
+        Long task= (Long) getIntent().getSerializableExtra("inlongtask");
 
-        mrg.setOnCheckedChangeListener(mChangeRadio);
+        if(task!=null){
+            ddlCycle.setVisibility(View.INVISIBLE);
+            tv.setVisibility(View.INVISIBLE);
+            mrg.setVisibility(View.INVISIBLE);
+            numCycle.setVisibility(View.INVISIBLE);
+            ddlLong.setVisibility(View.INVISIBLE);
+            circleCycle.setVisibility(View.INVISIBLE);
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ddl=ddlTemp.getText().toString();
+                    content = edContent.getText().toString();
+                    name = edTaskTitle.getText().toString();
+                    mlevel = Integer.parseInt(level.getText().toString());
+                    Temporary tt = new Temporary(name, content, type, mlevel, ddl);
+                    Intent intent=new Intent(ItemsAdd.this,LongTask.class);
+                    intent.putExtra("addasontask",tt);
+                    startActivity(intent);
+                }
+            });
+        }else{
+            mrg.setOnCheckedChangeListener(mChangeRadio);
+        }
+
     }
 
     private RadioGroup.OnCheckedChangeListener mChangeRadio = new RadioGroup.OnCheckedChangeListener() {
@@ -118,7 +147,7 @@ public class ItemsAdd extends Activity {
                         name = edTaskTitle.getText().toString();
                         ddl = ddlLong.getText().toString();
                         mlevel = Integer.parseInt(level.getText().toString().equals("") ? "0" : level.getText().toString());
-                        Long tt = new Long(name, content, type, mlevel, ddl, null);
+                        Long tt = new Long(name, content, type, mlevel, ddl, new ArrayList<Temporary>());
                         tt.save();
                         Log.d("yooo", "ddl:" + tt.getDdl() + "name:" + tt.getName() + "content:" + tt.getContent() + "type:" + tt.getType());
                         Intent intent = new Intent(ItemsAdd.this, InsideList.class);
