@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ListAdd"></activity>
+        <activity android:name=".view.LongTask"></activity>
+        <activity android:name=".view.ListAdd" />
         <activity android:name=".view.InsideTask" />
         <activity android:name=".view.InsideList" />
         <activity

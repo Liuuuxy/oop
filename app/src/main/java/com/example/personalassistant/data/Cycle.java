@@ -35,8 +35,4 @@ public class Cycle extends Task {
     public void setRepeatCycle(int repeatCycle) {
         this.repeatCycle = repeatCycle;
     }
-
-    public String Type() {
-        return "周期任务";
-    }
 }

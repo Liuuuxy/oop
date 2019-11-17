@@ -45,6 +45,11 @@ public class InsideList extends AppCompatActivity {
     private Button sort1;
     private Button sort2;
     private Button sort3;
+
+    private Button btfind;
+    private TextView tvresult;
+    private EditText edinput;
+
     Context context = this;
     private TaskAdapter taskAdapter;
     static TaskList taskList = new TaskList();
@@ -74,6 +79,9 @@ public class InsideList extends AppCompatActivity {
         sort1=findViewById(R.id.btn_sort_name);
         sort2=findViewById(R.id.btn_sort_type);
         sort3=findViewById(R.id.btn_sort_level);
+        btfind=findViewById(R.id.btn_search_ok);
+        tvresult=findViewById(R.id.tv_show_result);
+        edinput=findViewById(R.id.ed_search);
 
         t2.setText(taskList.getType());
         t1.setText(taskList.getListName());
@@ -85,18 +93,18 @@ public class InsideList extends AppCompatActivity {
         taskAdapter = new TaskAdapter(this, listOfTask);
         recyclerView.setAdapter(taskAdapter);
 
-        taskAdapter.setOnItemClickListener(new TaskAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(context, "You clicked item " + listOfTask.get(position).getName(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(InsideList.this, InsideTask.class);
-                intent.putExtra("chosentask", listOfTask.get(position));
-                startActivity(intent);
-            }
-        });
+//        taskAdapter.setOnItemClickListener(new TaskAdapter.OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                Toast.makeText(context, "You clicked item " + listOfTask.get(position).getName(), Toast.LENGTH_LONG).show();
+//                Intent intent = new Intent(InsideList.this, InsideTask.class);
+//                intent.putExtra("chosentask", listOfTask.get(position));
+//                startActivity(intent);
+//            }
+//        });
 
         // 拖拽移动和左滑删除
-        SimpleItemTouchCallBack simpleItemTouchCallBack = new SimpleItemTouchCallBack(taskAdapter);
+       SimpleItemTouchCallBack simpleItemTouchCallBack = new SimpleItemTouchCallBack(taskAdapter);
         // 要实现侧滑删除条目，把 false 改成 true 就可以了
         simpleItemTouchCallBack.setmSwipeEnable(true);
         ItemTouchHelper helper = new ItemTouchHelper(simpleItemTouchCallBack);
@@ -176,6 +184,24 @@ public class InsideList extends AppCompatActivity {
                     }
                 });
                 taskAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btfind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name=edinput.getText().toString();
+                Log.d("finda",name);
+                Log.d("finda","listOfTak"+listOfTask.get(0).getName());
+                for(Task t:listOfTask){
+                    if(t.getName().equals(name)){
+                        Log.d("finda",Boolean.toString(t.getName()==name));
+                        Log.d("finda",t.getName()+" "+t.getRealType());
+                        tvresult.setText(t.getName()+" "+t.getContent()+" "+t.getRealType()+" "+t.getLevel());
+                       break;
+                    }
+                    else {Log.d("finda","不等于");}
+                }
             }
         });
 

@@ -14,38 +14,63 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/ed_list_show_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="24sp"/>
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/btn_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="编辑任务清单"/>
+        android:text="确认更改" />
+
+    <EditText
+        android:id="@+id/ed_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:hint="请输入任务名称"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/btn_search_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查找" />
+
+    <TextView
+        android:id="@+id/tv_show_result"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center_horizontal"
+        android:textSize="24dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/btn_sort_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按名称排序"/>
+            android:text="按名称排序" />
+
         <Button
             android:id="@+id/btn_sort_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按类型排序"/>
+            android:text="按类型排序" />
+
         <Button
             android:id="@+id/btn_sort_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="按等级排序"/>
+            android:text="按等级排序" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

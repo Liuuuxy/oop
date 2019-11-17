@@ -11,6 +11,15 @@ public class Task extends LitePalSupport implements Serializable {
     private TaskList tlist;
     private int type;
     private int level;
+    private boolean isFinished;
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
 
     public Task copy() {
         return new Task(this.name, this.Content, this.type, this.level);
@@ -53,6 +62,17 @@ public class Task extends LitePalSupport implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getRealType() {
+        if (type == 0)
+            return "临时任务";
+        else if(type==1)
+            return "周期任务";
+        else if (type==2)
+            return "长期任务";
+        else
+            return "";
     }
 
     public String getName() {
