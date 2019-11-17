@@ -26,6 +26,7 @@ public class LongTask extends AppCompatActivity {
     EditText edDdl;
     Button btEdit;
     Button btAdd;
+    Button back;
     static Long task;
     List<Temporary> sontasks = new ArrayList<>();
     List<String> sonTaskName = new ArrayList<>();
@@ -40,6 +41,7 @@ public class LongTask extends AppCompatActivity {
         edName = findViewById(R.id.ed_long_show_name);
         btAdd = findViewById(R.id.btn_add);
         btEdit = findViewById(R.id.btn_edit_long);
+        back=findViewById(R.id.btn_back_task);
 
         if (getIntent().getSerializableExtra("longtaskchoose") != null) {
             task = (Long) getIntent().getSerializableExtra("longtaskchoose");
@@ -85,5 +87,12 @@ public class LongTask extends AppCompatActivity {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(LongTask.this,InsideList.class);
+                startActivity(intent);
+            }
+        });
     }
 }

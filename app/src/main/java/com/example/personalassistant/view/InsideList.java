@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.personalassistant.MainActivity;
 import com.example.personalassistant.R;
 import com.example.personalassistant.data.Cycle;
 import com.example.personalassistant.data.Long;
@@ -45,6 +46,7 @@ public class InsideList extends AppCompatActivity {
     private Button sort1;
     private Button sort2;
     private Button sort3;
+    private Button back;
 
     private Button btfind;
     private TextView tvresult;
@@ -82,6 +84,7 @@ public class InsideList extends AppCompatActivity {
         btfind=findViewById(R.id.btn_search_ok);
         tvresult=findViewById(R.id.tv_show_result);
         edinput=findViewById(R.id.ed_search);
+        back=findViewById(R.id.btn_back_list);
 
         t2.setText(taskList.getType());
         t1.setText(taskList.getListName());
@@ -202,6 +205,14 @@ public class InsideList extends AppCompatActivity {
                     }
                     else {Log.d("finda","不等于");}
                 }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(InsideList.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
